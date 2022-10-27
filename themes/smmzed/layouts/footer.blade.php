@@ -45,10 +45,10 @@
                     <h4>About us</h4>
                     <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
                     @if (!empty($settings['site_email']))
-                        <p><i class="fa fa-envelope"></i> asd@sadasd.cpom </p>
+                        <p><i class="fa fa-envelope"></i> {{$settings['site_email']}} </p>
                     @endif
                     @if (!empty($settings['site_phone']))
-                        <p><i class="fa fa-phone-alt"></i> 10510550 </p>
+                        <p><i class="fa fa-phone-alt"></i> {{$settings['site_phone']}} </p>
                     @endif
                 </div>
 
