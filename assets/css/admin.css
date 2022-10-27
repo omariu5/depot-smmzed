@@ -1,0 +1,47 @@
+.codefield {
+    width: 100%;
+    height: 100%;
+}
+.ace_editor {
+    height: 100% !important;
+    width: 100% !important;
+}
+.codefield-container {
+    min-height: 435px;
+    padding-bottom: 50px;
+}
+
+.settings-preview-img {
+    border: 1px solid #bbbbbb;
+    background: #ebebeb;
+    max-width: 230px;
+}
+.nav-treeview li.nav-item a {
+    padding: 1px 10px;
+}
+.nav-sidebar .nav-treeview>.nav-item>.nav-link>.nav-icon {
+    font-size: 12px;
+}
+
+.select-roles {
+    height: 200px;
+}
+
+.text-regular {
+    font-weight: normal !important;
+}
+
+.fdindex.clone {
+    margin-bottom: 15px;
+}
+.img-container button.close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+body.sidebar-mini {
+    overflow-x: hidden;
+}
+.ace_identifier, .ace_class {
+    color: #e5170e;
+}
