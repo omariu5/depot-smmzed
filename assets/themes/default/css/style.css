@@ -110,10 +110,10 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.5s;
   z-index: 997;
     padding: 1px 0;
-    background: linear-gradient(45deg,rgb(0 19 72) 0%,rgb(25 0 255) 100%),url(../img/hero-bg.jpg) center center no-repeat;
+    background: linear-gradient(45deg,rgb(0 19 72 / 81%) 0%,rgb(25 0 255 / 81%) 100%),url(../img/hero-bg.jpg) center center no-repeat;
 }
 #header.header-scrolled, #header.header-inner-pages {
-    background: linear-gradient(45deg,rgb(0 19 72) 0%,rgb(25 0 255) 100%),url(../img/hero-bg.jpg) center center no-repeat;
+    background: linear-gradient(45deg,rgb(0 19 72 / 81%) 0%,rgb(25 0 255 / 81%) 100%),url(../img/hero-bg.jpg) center center no-repeat;
     padding: 12px 0;
 }
 #header .logo {
