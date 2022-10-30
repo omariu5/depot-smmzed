@@ -38,6 +38,10 @@
     @if ($settings['site_head_html'])
         {!! htmlspecialchars_decode($settings['site_head_html']) !!}
     @endif
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/dist/js/func.js"></script>
+
     @stack('head')
 </head>
 <body class="{{request()->path()}} {{Illuminate\Support\Str::slug(request()->path())}}">
