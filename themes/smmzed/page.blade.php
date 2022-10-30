@@ -30,7 +30,7 @@
         @endif
 @endsection
 
-@push('script')
+@push('scripts')
     @if ($page->footer)
         @php
             eval($page->footer)

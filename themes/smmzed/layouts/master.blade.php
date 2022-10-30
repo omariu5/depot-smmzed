@@ -40,7 +40,7 @@
     @endif
     @stack('head')
 </head>
-<body>
+<body class="{{request()->path()}} {{Illuminate\Support\Str::slug(request()->path())}}">
     @include('sweetalert::alert')
 
     @include('themes.'.$settings['theme'].'.layouts.header')
