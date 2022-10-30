@@ -29,13 +29,13 @@
                             $icon = $nv->icon;
                             if (str_contains($icon,'scroll-to')) {
                                 if (request()->path() != '/') {
-                                    $path = url($path);
+                                    $path = $settings['site_url'].$path;
                                 }
                                 $icon = str_replace($icon,'',$icon);
                             }
 
                         @endphp
-                    <li><a class="nav-link {{$nv->path =='/login' ? 'getstarted':''}} {{str_contains($nv->icon,'scroll-to') ? 'scrollto':''}}" href="{{$path}}">
+                    <li><a class="nav-link {{request()->path()}} {{$nv->path =='/login' ? 'getstarted':''}} {{str_contains($nv->icon,'scroll-to') ? 'scrollto':''}}" href="{{$path}}">
                             @if ($icon) <i class="me-2 {{$icon}}"></i>  @endif <span class="d-inline-block">{{$nv->name}}</span></a></li>
                     @endif
                 @endforeach
