@@ -25,7 +25,7 @@
                     <h4></h4>
                     <ul>
                         <li><i class="bx bx-chevron-right"></i> <a href="/">Home</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="/login">Account</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="/dashboard">Dashboard</a></li>
                         <li><i class="bx bx-chevron-right"></i> <a href="/terms-and-conditions">Terms & Conditions</a></li>
                         <li><i class="bx bx-chevron-right"></i> <a href="/privacy-policy">Privacy policy</a></li>
                     </ul>
