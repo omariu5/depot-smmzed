@@ -35,7 +35,7 @@
                             }
 
                         @endphp
-                    <li><a class="nav-link {{$nv->path =='/login' ? 'getstarted':''}} {{str_contains($nv->icon,'scroll-to') ? 'scrollto':''}}" href="{{$path}}">
+                    <li><a class="nav-link {{$nv->path =='/login' ? 'getstarted':''}} {{request()->path() == $nv->path ? 'active':''}} {{str_contains($nv->icon,'scroll-to') ? 'scrollto':''}}" href="{{$path}}">
                             @if ($icon) <i class="me-2 {{$icon}}"></i>  @endif <span class="d-inline-block">{{$nv->name}}</span></a></li>
                     @endif
                 @endforeach
