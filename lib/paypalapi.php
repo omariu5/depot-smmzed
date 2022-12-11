@@ -53,6 +53,13 @@ class paypalapi {
 		$amount->setCurrency($data->currency)
 		  ->setTotal($data->amount);
 
+        $item = new Item();
+        $item->setName($data->description)
+            ->setCurrency($data->currency)
+            ->setQuantity(1)
+            ->setPrice($data->amount);
+        $itemsList = new ItemList();
+        $itemsList = $itemsList->setItems([$item]);
 		// Set transaction object
 		$transaction = new Transaction();
 		$transaction->setAmount($amount)
