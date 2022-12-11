@@ -191,7 +191,7 @@ class Client implements ClientInterface
 
         // Add the default user-agent header.
         if (!isset($this->config['headers'])) {
-            $this->config['headers'] = ['User-Agent' => default_user_agent()];
+            $this->config['headers'] = ['User-Agent' => $this->default_user_agent()];
         } else {
             // Add the User-Agent header if one was not already set.
             foreach (array_keys($this->config['headers']) as $name) {
@@ -199,8 +199,22 @@ class Client implements ClientInterface
                     return;
                 }
             }
-            $this->config['headers']['User-Agent'] = default_user_agent();
+            $this->config['headers']['User-Agent'] = $this->default_user_agent();
         }
+    }
+    function default_user_agent()
+    {
+        static $defaultAgent = '';
+
+        if (!$defaultAgent) {
+            $defaultAgent = 'GuzzleHttp/' . Client::VERSION;
+            if (extension_loaded('curl') && function_exists('curl_version')) {
+                $defaultAgent .= ' curl/' . \curl_version()['version'];
+            }
+            $defaultAgent .= ' PHP/' . PHP_VERSION;
+        }
+
+        return $defaultAgent;
     }
 
     /**
