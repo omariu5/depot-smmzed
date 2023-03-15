@@ -61,60 +61,41 @@ class perfectmoney_api{
 
     public function create_payment($data_payment = ""){
         $amount = $data_payment['amount'];
-
-        if (!$data_payment['pm_merchant_id'] || !$data_payment['pm_secret_key']) {
-            $result = (object)array(
-                'status'  => 'error',
-                'message' => "Invalid Gateway Credentials",
-            );
-            return $result;
+        if (!$amount) {
+            return _redirect('back', __('There was an error processing your request please try again later'));
         }
 
-        $m_shop    = $data_payment['pm_merchant_id'];
-        $m_orderid = "ORDS" . $data_payment['order_id'];
-        $m_amount  = number_format($amount, 2, '.', '');
-        $m_curr    = $data_payment['currency'];
-        $m_desc    = base64_encode($data_payment['description']);
+        $amount = number_format($amount, 2, '.', ',');
+        $order_id = $data_payment['order_id'];
+        $perfectmoney = array(
+            'PAYEE_ACCOUNT' 	=> $data_payment['payee_account'],
+            'PAYEE_NAME' 		=> $data_payment['payee_name'],
+            'PAYMENT_UNITS' 	=> $data_payment['currency'],
+            'STATUS_URL' 		=> cn("add_funds/perfectmoney/complete"),
+            'PAYMENT_URL' 		=> cn("add_funds/perfectmoney/complete"),
+            'NOPAYMENT_URL' 	=> cn("add_funds/perfectmoney/unsuccess"),
+            'BAGGAGE_FIELDS' 	=> 'IDENT',
+            'ORDER_NUM' 		=> $order_id,
+            'PAYMENT_ID' 		=> strtotime(now()),
+            'CUST_NUM' 		    => "USERID" . rand(10000,99999999),
+            'memo' 		        => $data_payment['description'],
 
-
-        $m_key     = $data_payment['pm_secret_key'];
-        $arHash = array(
-            $m_shop,
-            $m_orderid,
-            $m_amount,
-            $m_curr,
-            $m_desc
         );
-
-        $arHash[] = $m_key;
-        $sign = strtoupper(hash('sha256', implode(':', $arHash)));
-
-        $paramList = [
-            "m_shop" 		         => $m_shop,
-            "m_orderid" 			 => $m_orderid,
-            "m_amount" 	             => $m_amount,
-            "m_curr" 	             => $m_curr,
-            'm_desc'                 => $m_desc,
-            'm_sign'                 => $sign,
-        ];
-
-        $data_redirect = [
-            "action_url" 	         => 'https://payeer.com/merchant/',
-            "paramList" 	         => $paramList,
-        ];
-        /*----------  Insert Transaction logs  ----------*/
+        $tnx_id = $perfectmoney['PAYMENT_ID'].':'.$perfectmoney['PAYEE_ACCOUNT'].':'. $amount.':'.$perfectmoney['PAYMENT_UNITS'];
+        $tnx_id = sha1($tnx_id);
         $data_tnx_log = array(
-            "status" => 'success',
-            "type" 				=> 'payeer',
-            "transaction_id" 	=> $m_orderid,
-            "amount" 	        => $amount ,
-            'txn_fee'           => round($amount * ($data_payment['payment_fee'] / 100), 4),
+            "ids" 				=> ids(),
+            "uid" 				=> csrf_token(),
+            "type" 				=> 'perfectmoney',
+            "transaction_id" 	=> 'ORD-'.$data_payment['order_id'],
+            "amount" 	        => $amount,
+            'txn_fee'           => $amount * ($data_payment['payment_fee'] / 100),
+            "status" 	        => 0,
             "created" 			=> now(),
-            "redirect_url"      => $data_payment['redirectUrls'],
-            "action_url" 	         => 'https://payeer.com/merchant/',
-            "paramList" 	         => $paramList,
+            "perfectmoney"  => (object)$perfectmoney,
         );
-        return (object) $data_tnx_log;
+//        $this->load->view("perfectmoney/redirect", $data_tnx_log);
+
     }
 
 //    public function complete(){
