@@ -22,8 +22,8 @@ class payeer {
 		if (!$payment) {
 //			$payment = $this->model->get('id, type, name, params', $this->tb_payments, ['type' => $this->payment_type]);
 		}
-		$this->payment_id 	      = $payment->id;
-		$params  			      = $payment->params;
+//		$this->payment_id 	      = $payment->id;
+//		$params  			      = $payment->params;
 
 
 	}
