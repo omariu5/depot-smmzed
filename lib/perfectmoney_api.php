@@ -110,8 +110,8 @@ class perfectmoney_api{
                     <input type="hidden" name="ORDER_NUM" value="<?php echo $perfectmoney->ORDER_NUM; ?>">
                     <input type="hidden" name="CUST_NUM" value="<?php echo $perfectmoney->CUST_NUM; ?>">
                     <input type="hidden" name="PAYMENT_ID" value="<?php echo $perfectmoney->PAYMENT_ID; ?>">
-                    <input type="hidden" name="PAYMENT_URL_METHOD" value="POST">
-                    <input type="hidden" name="NOPAYMENT_URL_METHOD" value="POST">
+                    <input type="hidden" name="PAYMENT_URL_METHOD" value="GET">
+                    <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
                     <input type="hidden" name="SUGGESTED_MEMO" value="<?php echo $perfectmoney->memo; ?>">
                     <input type="hidden" name="ci_csrf_token" value="<?php echo csrf_token() ?>">
                     <script type="text/javascript">
