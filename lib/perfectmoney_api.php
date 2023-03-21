@@ -85,6 +85,7 @@ class perfectmoney_api{
         $tnx_id = sha1($tnx_id);
         return (object)[
             'status' => 'success',
+            'data' => ['id' => $tnx_id],
             'redirect_form' => $this->perfectmoney_redirect($amount,(object) $perfectmoney )
         ];
     }
