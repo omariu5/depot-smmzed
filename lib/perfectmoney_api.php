@@ -83,10 +83,10 @@ class perfectmoney_api{
         );
         $tnx_id = $perfectmoney['PAYMENT_ID'].':'.$perfectmoney['PAYEE_ACCOUNT'].':'. $amount.':'.$perfectmoney['PAYMENT_UNITS'];
         $tnx_id = sha1($tnx_id);
-        return response()->json([
+        return (object)[
             'status' => 'success',
             'redirect_form' => $this->perfectmoney_redirect($amount,(object) $perfectmoney )
-        ]);
+        ];
     }
 
 
