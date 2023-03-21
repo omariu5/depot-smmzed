@@ -71,9 +71,9 @@ class perfectmoney_api{
             'PAYEE_ACCOUNT' 	=> $data_payment['payee_account'],
             'PAYEE_NAME' 		=> $data_payment['payee_name'],
             'PAYMENT_UNITS' 	=> $data_payment['currency'],
-            'STATUS_URL' 		=> cn("add_funds/perfectmoney/complete"),
-            'PAYMENT_URL' 		=> cn("add_funds/perfectmoney/complete"),
-            'NOPAYMENT_URL' 	=> cn("add_funds/perfectmoney/unsuccess"),
+            'STATUS_URL' 		=> $data_payment['status_url'],
+            'PAYMENT_URL' 		=> $data_payment['approve_url'],
+            'NOPAYMENT_URL' 	=> $data_payment['decline_url'],
             'BAGGAGE_FIELDS' 	=> 'IDENT',
             'ORDER_NUM' 		=> $order_id,
             'PAYMENT_ID' 		=> strtotime(now()),
@@ -83,19 +83,44 @@ class perfectmoney_api{
         );
         $tnx_id = $perfectmoney['PAYMENT_ID'].':'.$perfectmoney['PAYEE_ACCOUNT'].':'. $amount.':'.$perfectmoney['PAYMENT_UNITS'];
         $tnx_id = sha1($tnx_id);
-        $data_tnx_log = array(
-            "ids" 				=> ids(),
-            "uid" 				=> csrf_token(),
-            "type" 				=> 'perfectmoney',
-            "transaction_id" 	=> 'ORD-'.$data_payment['order_id'],
-            "amount" 	        => $amount,
-            'txn_fee'           => $amount * ($data_payment['payment_fee'] / 100),
-            "status" 	        => 0,
-            "created" 			=> now(),
-            "perfectmoney"  => (object)$perfectmoney,
-        );
-//        $this->load->view("perfectmoney/redirect", $data_tnx_log);
+        return response()->json([
+            'status' => 'success',
+            'redirect_form' => $this->perfectmoney_redirect($amount,(object) $perfectmoney )
+        ]);
+    }
 
+
+    public function perfectmoney_redirect($amount,$perfectmoney){
+        ob_start();
+        ?>
+        <div class="dimmer active" style="min-height: 400px;">
+            <div class="loader"></div>
+            <div class="dimmer-content">
+                <center><h2><?php echo __('Please do not refresh this page'); ?></h2></center>
+                <form method="post" action="https://perfectmoney.is/api/step1.asp" id="redirection_form">
+                    <input type="hidden" name="PAYMENT_AMOUNT" value="<?=$amount?>">
+                    <input type="hidden" name="PAYEE_ACCOUNT" value="<?php echo $perfectmoney->PAYEE_ACCOUNT; ?>">
+                    <input type="hidden" name="PAYEE_NAME" value="<?php echo $perfectmoney->PAYEE_NAME; ?>">
+                    <input type="hidden" name="PAYMENT_UNITS" value="<?php echo $perfectmoney->PAYMENT_UNITS; ?>">
+                    <input type="hidden" name="STATUS_URL" value="<?php echo $perfectmoney->STATUS_URL; ?>">
+                    <input type="hidden" name="PAYMENT_URL" value="<?php echo $perfectmoney->PAYMENT_URL; ?>">
+                    <input type="hidden" name="NOPAYMENT_URL" value="<?php echo $perfectmoney->NOPAYMENT_URL; ?>">
+                    <input type="hidden" name="BAGGAGE_FIELDS" value="<?php echo $perfectmoney->BAGGAGE_FIELDS; ?>">
+                    <input type="hidden" name="ORDER_NUM" value="<?php echo $perfectmoney->ORDER_NUM; ?>">
+                    <input type="hidden" name="CUST_NUM" value="<?php echo $perfectmoney->CUST_NUM; ?>">
+                    <input type="hidden" name="PAYMENT_ID" value="<?php echo $perfectmoney->PAYMENT_ID; ?>">
+                    <input type="hidden" name="PAYMENT_URL_METHOD" value="POST">
+                    <input type="hidden" name="NOPAYMENT_URL_METHOD" value="POST">
+                    <input type="hidden" name="SUGGESTED_MEMO" value="<?php echo $perfectmoney->memo; ?>">
+                    <input type="hidden" name="ci_csrf_token" value="<?php echo csrf_token() ?>">
+                    <script type="text/javascript">
+                        document.getElementById("redirection_form").submit();
+                    </script>
+                </form>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
     }
 
 //    public function complete(){
