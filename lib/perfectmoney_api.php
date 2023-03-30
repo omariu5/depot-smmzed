@@ -76,7 +76,7 @@ class perfectmoney_api{
             'NOPAYMENT_URL' 	=> $data_payment['decline_url'],
             'BAGGAGE_FIELDS' 	=> 'IDENT',
             'ORDER_NUM' 		=> $order_id,
-            'PAYMENT_ID' 		=> strtotime(now()),
+            'PAYMENT_ID' 		=> $order_id,
             'CUST_NUM' 		    => "USERID" . rand(10000,99999999),
             'memo' 		        => $data_payment['description'],
 
