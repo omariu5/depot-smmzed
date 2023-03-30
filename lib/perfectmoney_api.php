@@ -97,7 +97,6 @@ class perfectmoney_api{
         <div class="dimmer active" style="min-height: 400px;">
             <div class="loader"></div>
             <div class="dimmer-content">
-                <center><h2><?php echo __('Please do not refresh this page'); ?></h2></center>
                 <form method="post" action="https://perfectmoney.is/api/step1.asp" id="redirection_form">
                     <input type="hidden" name="PAYMENT_AMOUNT" value="<?=$amount?>">
                     <input type="hidden" name="PAYEE_ACCOUNT" value="<?php echo $perfectmoney->PAYEE_ACCOUNT; ?>">
@@ -113,6 +112,7 @@ class perfectmoney_api{
                     <input type="hidden" name="PAYMENT_URL_METHOD" value="GET">
                     <input type="hidden" name="NOPAYMENT_URL_METHOD" value="GET">
                     <input type="hidden" name="SUGGESTED_MEMO" value="<?php echo $perfectmoney->memo; ?>">
+                    <input type="hidden" name="paymentId" value="<?php echo $perfectmoney->ORDER_NUM; ?>">
                     <input type="hidden" name="ci_csrf_token" value="<?php echo csrf_token() ?>">
                     <script type="text/javascript">
                         document.getElementById("redirection_form").submit();
