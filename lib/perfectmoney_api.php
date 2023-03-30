@@ -71,9 +71,6 @@ class perfectmoney_api{
             'PAYEE_ACCOUNT' 	=> $data_payment['payee_account'],
             'PAYEE_NAME' 		=> $data_payment['payee_name'],
             'PAYMENT_UNITS' 	=> $data_payment['currency'],
-            'STATUS_URL' 		=> $data_payment['status_url'],
-            'PAYMENT_URL' 		=> $data_payment['approve_url'],
-            'NOPAYMENT_URL' 	=> $data_payment['decline_url'],
             'BAGGAGE_FIELDS' 	=> 'IDENT',
             'ORDER_NUM' 		=> $order_id,
             'PAYMENT_ID' 		=> $order_id,
@@ -83,7 +80,10 @@ class perfectmoney_api{
         );
         $tnx_id = $perfectmoney['PAYMENT_ID'].':'.$perfectmoney['PAYEE_ACCOUNT'].':'. $amount.':'.$perfectmoney['PAYMENT_UNITS'];
         $tnx_id = sha1($tnx_id);
-        $perfectmoney['PAYMENT_ID'] =$tnx_id;
+        $perfectmoney['STATUS_URL'] = str_replace('{id}',$tnx_id,$data_payment['status_url']);
+        $perfectmoney['PAYMENT_URL'] = str_replace('{id}',$tnx_id,$data_payment['approve_url']);
+        $perfectmoney['NOPAYMENT_URL'] = str_replace('{id}',$tnx_id,$data_payment['decline_url']);
+        $perfectmoney['PAYMENT_ID'] = $tnx_id;
         return (object)[
             'status' => 'success',
             'data' => ['id' => $tnx_id],
@@ -113,7 +113,7 @@ class perfectmoney_api{
                     <input type="hidden" name="PAYMENT_URL_METHOD" value="POST">
                     <input type="hidden" name="NOPAYMENT_URL_METHOD" value="POST">
                     <input type="hidden" name="SUGGESTED_MEMO" value="<?php echo $perfectmoney->memo; ?>">
-                    <input type="hidden" name="paymentId" value="<?php echo $perfectmoney->ORDER_NUM; ?>">
+                    <input type="hidden" name="paymentId" value="<?php echo $perfectmoney->PAYMENT_ID; ?>">
                     <input type="hidden" name="ci_csrf_token" value="<?php echo csrf_token() ?>">
                     <script type="text/javascript">
                         document.getElementById("redirection_form").submit();
