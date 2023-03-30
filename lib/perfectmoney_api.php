@@ -83,6 +83,7 @@ class perfectmoney_api{
         );
         $tnx_id = $perfectmoney['PAYMENT_ID'].':'.$perfectmoney['PAYEE_ACCOUNT'].':'. $amount.':'.$perfectmoney['PAYMENT_UNITS'];
         $tnx_id = sha1($tnx_id);
+        $perfectmoney['PAYMENT_ID'] =$tnx_id;
         return (object)[
             'status' => 'success',
             'data' => ['id' => $tnx_id],
